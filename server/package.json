@@ -1,0 +1,14 @@
+{
+  "name": "pharking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "rauny.souza",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}

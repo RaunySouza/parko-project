@@ -1,0 +1,13 @@
+.content section {
+    margin-bottom: 30px;
+}
+
+.usersHeader {
+    position: relative;
+}
+
+.usersDial {
+    position: absolute;
+    right: 30px;
+    top:28px;
+}
