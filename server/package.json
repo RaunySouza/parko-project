@@ -1,14 +1,24 @@
 {
-  "name": "pharking",
+  "name": "parko",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/RaunySouza/parko-project.git"
+  },
   "scripts": {
     "test": ""
   },
-  "author": "rauny.souza",
+  "author": {
+      name: "rauny.souza",
+      email: "rauny.souza@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
   }
 }
