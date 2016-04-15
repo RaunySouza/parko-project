@@ -1,0 +1,26 @@
+FROM node
+
+RUN apt-get update -qq && apt-get install -y build-essential
+RUN apt-get install -y ruby
+RUN gem install sass
+
+
+RUN mkdir -p /app
+
+RUN npm install -g bower gulp
+
+ADD server/package.json /app/server/package.json
+WORKDIR /app/server
+RUN npm install
+
+ADD client /app/client
+RUN cd /app/client && bower install --allow-root
+
+ADD server/gulpfile.js /app/server/gulpfile.js
+RUN gulp build
+
+ADD server/. /app/server/
+
+EXPOSE 3000
+
+CMD ["node", "main.js"]
