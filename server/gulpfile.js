@@ -4,7 +4,9 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     del = require('del'),
     cache = require('gulp-cache'),
-    imagemin = require('gulp-imagemin');
+    imagemin = require('gulp-imagemin'),
+    zip = require('gulp-zip'),
+    merge = require('merge-stream');
 
 var clientDir = '../client';
 var jsDir = clientDir + '/js';
@@ -15,6 +17,9 @@ var bowerDep = clientDir + "/bower_components";
 
 var publicDir = 'public';
 var assetsDir = publicDir + '/assets';
+
+var targetDir = 'target';
+var installedDir = targetDir + '/installed';
 
 // Clean
 gulp.task('clean', function() {
@@ -62,6 +67,26 @@ gulp.task('htmls', function() {
 
 gulp.task('build', ['clean'], function() {
     gulp.start('scripts', 'styles', 'images', 'htmls');
+});
+
+gulp.task('clean-target', function() {
+    return del([targetDir + '/*']);
+});
+
+gulp.task('install', ['clean-target'],function() {
+    var publicDirPipe = gulp.src(publicDir + '/*')
+        .pipe(gulp.dest(installedDir + '/public'));
+    var mainJsPipe = gulp.src('main.js')
+        .pipe(gulp.dest(installedDir));
+
+    return merge(publicDirPipe, mainJsPipe);
+});
+
+gulp.task('deploy', ['install'], function() {
+    return gulp.src([installedDir + '/**/*'])
+        .pipe(zip('distribuition.zip'))
+        .pipe(gulp.dest(targetDir))
+        .pipe(notify({message: 'Deploy task finished', onLast: true}));
 });
 
 gulp.task('watch', function() {
