@@ -4,17 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="public/assets/css/main.css">
+    <title>Parko</title>
 </head>
-<body ng-app="Parko" layout-margin>
-    <header>
-        <h1>
-            <span>
-                <img src="public/assets/img/icons/parking-service.png" />
-            </span>
-            Parko
-        </h1>
-    </header>
-    <div class="content" ng-controller="ConfigController" layout="column" flex ng-cloak >
+<body ng-app="Parko">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h1 id="appTitle">Parko</h1>
+        </div>
+    </md-toolbar>
+    <div class="content" ng-controller="ConfigController" layout-margin layout="column" flex ng-cloak >
         <section flex md-whiteframe="1">
             <md-toolbar>
                 <div class="md-toolbar-tools">
