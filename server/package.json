@@ -4,21 +4,27 @@
   "description": "",
   "main": "main.js",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/RaunySouza/parko-project.git"
+    "type": "git",
+    "url": "https://github.com/RaunySouza/parko-project.git"
   },
   "scripts": {
     "test": ""
   },
   "author": {
-      name: "rauny.souza",
-      email: "rauny.souza@gmail.com"
+    "name": "rauny.souza",
+    "email": "rauny.souza@gmail.com"
   },
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4"
   },
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-cache": "^0.4.4",
+    "gulp-clean-css": "^2.0.6",
+    "gulp-concat": "^2.6.0",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-notify": "^2.2.0"
   }
 }

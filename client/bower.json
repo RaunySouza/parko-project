@@ -17,6 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular-material": "^1.0.7"
+    "angular-material": "^1.0.7",
+    "angular-material-data-table": "^0.10.5"
   }
 }
