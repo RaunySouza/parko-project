@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="public/assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/main.css">
     <title>Parko</title>
 </head>
 <body ng-app="Parko">
@@ -50,13 +50,13 @@
                 <div class="md-toolbar-tools">
                     <span class="md-flex">Usuários Cadastrados</span>
                 </div>
-                <!--<md-fab-speed-dial class="usersDial">
+                <md-fab-speed-dial class="usersDial">
                      <md-fab-trigger>
-                         <md-button aria-label="menu" class="md-fab md-warn">
-                             <md-icon md-svg-src="public/assets/img/icons/plus.svg"></md-icon>
+                         <md-button aria-label="menu" class="md-fab md-warn" ng-click="openEditionWindow($event)">
+                             <md-icon md-svg-src="assets/img/icons/plus.svg"></md-icon>
                          </md-button>
                      </md-fab-trigger>
-                 </md-fab-speed-dial>-->
+                 </md-fab-speed-dial>
             </md-toolbar>
             <md-content flex layout-padding>
                 <md-table-container>
@@ -89,7 +89,7 @@
         </section>
     </div>
 
-    <script src="public/assets/js/main.js"></script>
+    <script src="assets/js/main.js"></script>
 
 </body>
 </html>

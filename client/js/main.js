@@ -1,5 +1,5 @@
 angular.module( 'Parko', [ 'ngMaterial', 'md.data.table' ] )
-    .controller("ConfigController", function($scope) {
+    .controller("ConfigController", function($scope, $mdDialog, $mdMedia) {
         $scope.config = {
             availableControllers: 20,
             users: [
@@ -32,5 +32,22 @@ angular.module( 'Parko', [ 'ngMaterial', 'md.data.table' ] )
             limit: 1,
             rowsPerPage: 10,
             page: 1
+        };
+
+        $scope.openEditionWindow = function(ev) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+            $mdDialog.show({
+                controller: null,
+                templateUrl: 'template/userEditWindow.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:false,
+                fullscreen: useFullScreen
+            })
+            .then(function() {
+                console.log('Saving User');
+            }, function() {
+                console.log('You cancelled the dialog.');
+            });
         };
     });

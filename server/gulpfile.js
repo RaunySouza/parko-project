@@ -12,6 +12,7 @@ var clientDir = '../client';
 var jsDir = clientDir + '/js';
 var cssDir = clientDir + '/css';
 var imgDir = clientDir + '/img';
+var templateDir = clientDir + '/template';
 
 var bowerDep = clientDir + "/bower_components";
 
@@ -59,6 +60,12 @@ gulp.task('images', function() {
     .pipe(notify({ message: 'Images task complete', onLast: true}));
 });
 
+gulp.task('templates', function() {
+    return gulp.src(templateDir + '/**/*.html')
+    .pipe(gulp.dest(publicDir + '/template'))
+    .pipe(notify({message: 'Templates tast complete', onLast: true}));
+});
+
 gulp.task('htmls', function() {
     return gulp.src(clientDir + '/*.html')
     .pipe(gulp.dest(publicDir))
@@ -66,7 +73,7 @@ gulp.task('htmls', function() {
 });
 
 gulp.task('build', ['clean'], function() {
-    gulp.start('scripts', 'styles', 'images', 'htmls');
+    gulp.start('scripts', 'styles', 'images', 'templates', 'htmls');
 });
 
 gulp.task('clean-target', function() {
@@ -95,5 +102,6 @@ gulp.task('watch', function() {
     gulp.watch(cssDir + '/**/*.css', ['styles']);
     gulp.watch(bowerDep + '/**/*.css', ['styles']);
     gulp.watch(imgDir + '/**/*', ['images']);
+    gulp.watch(templateDir + '/**/*.html', ['templates']);
     gulp.watch(clientDir + '/*.html', ['htmls']);
 });
