@@ -12,6 +12,10 @@
     top:28px;
 }
 
+.editionWindow {
+    width: 60%;
+}
+
 #appTitle {
     font-weight: bold;
 }

@@ -33,6 +33,7 @@ gulp.task('scripts', function() {
         bowerDep + "/angular-aria/angular-aria.js",
         bowerDep + "/angular-animate/angular-animate.js",
         bowerDep + "/angular-material/angular-material.js",
+        bowerDep + "/angular-messages/angular-messages.js",
         bowerDep + "/angular-material-data-table/dist/md-data-table.min.js",
         jsDir + "/main.js"
     ])
@@ -81,9 +82,9 @@ gulp.task('clean-target', function() {
 });
 
 gulp.task('install', ['clean-target'],function() {
-    var publicDirPipe = gulp.src(publicDir + '/*')
+    var publicDirPipe = gulp.src([publicDir + '/**/*'])
         .pipe(gulp.dest(installedDir + '/public'));
-    var mainJsPipe = gulp.src('main.js')
+    var mainJsPipe = gulp.src(['main.js', 'package.json'])
         .pipe(gulp.dest(installedDir));
 
     return merge(publicDirPipe, mainJsPipe);
