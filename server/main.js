@@ -1,19 +1,27 @@
 #!/usr/bin/env node
 
-var express = require('express');
-var path = require('path');
+var express = require('express'),
+    path = require('path'),
+    load = require('express-load'),
+    bodyParser = require('body-parser');
 
 var app = express();
+
+load('controllers')
+    .into(app);
+
 var publicDir = __dirname + "/public"
 
 app.set('port', (process.env.PORT || 3000));
 
-app.use("/public", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", function(req, res) {
-    res.sendFile(path.join(publicDir + "/index.html"));
+    res.sendFile("index.html");
 });
 
 app.listen(app.get('port'), function() {
     console.log("Server Running on port " + app.get('port'));
-})
+});

@@ -1,21 +1,27 @@
-var gulp       = require('gulp'),
-    cleanCss   = require('gulp-clean-css'),
-    concat     = require('gulp-concat'),
-    notify     = require('gulp-notify'),
-    del        = require('del'),
-    cache      = require('gulp-cache'),
-    imagemin   = require('gulp-imagemin'),
-    nodemon    = require('gulp-nodemon');
+var gulp = require('gulp'),
+    cleanCss = require('gulp-clean-css'),
+    concat = require('gulp-concat'),
+    notify = require('gulp-notify'),
+    del = require('del'),
+    cache = require('gulp-cache'),
+    imagemin = require('gulp-imagemin'),
+    zip = require('gulp-zip'),
+    merge = require('merge-stream'),
+    nodemon = require('gulp-nodemon');
 
 var clientDir = '../client';
 var jsDir = clientDir + '/js';
 var cssDir = clientDir + '/css';
 var imgDir = clientDir + '/img';
+var templateDir = clientDir + '/template';
 
 var bowerDep = clientDir + "/bower_components";
 
 var publicDir = 'public';
 var assetsDir = publicDir + '/assets';
+
+var targetDir = 'target';
+var installedDir = targetDir + '/installed';
 
 gulp.task('develop', function () {
   nodemon({script: './app.js', ext: 'js hjs json', legacyWatch: true });
@@ -32,6 +38,7 @@ gulp.task('scripts', function() {
         bowerDep + "/angular-aria/angular-aria.js",
         bowerDep + "/angular-animate/angular-animate.js",
         bowerDep + "/angular-material/angular-material.js",
+        bowerDep + "/angular-messages/angular-messages.js",
         bowerDep + "/angular-material-data-table/dist/md-data-table.min.js",
         jsDir + "/main.js"
     ])
@@ -59,6 +66,12 @@ gulp.task('images', function() {
     .pipe(notify({ message: 'Images task complete', onLast: true}));
 });
 
+gulp.task('templates', function() {
+    return gulp.src(templateDir + '/**/*.html')
+    .pipe(gulp.dest(publicDir + '/template'))
+    .pipe(notify({message: 'Templates tast complete', onLast: true}));
+});
+
 gulp.task('htmls', function() {
     return gulp.src(clientDir + '/*.html')
     .pipe(gulp.dest(publicDir))
@@ -66,7 +79,27 @@ gulp.task('htmls', function() {
 });
 
 gulp.task('build', ['clean'], function() {
-    gulp.start('scripts', 'styles', 'images', 'htmls');
+    gulp.start('scripts', 'styles', 'images', 'templates', 'htmls');
+});
+
+gulp.task('clean-target', function() {
+    return del([targetDir + '/*']);
+});
+
+gulp.task('install', ['clean-target'],function() {
+    var publicDirPipe = gulp.src([publicDir + '/**/*'])
+        .pipe(gulp.dest(installedDir + '/public'));
+    var mainJsPipe = gulp.src(['main.js', 'package.json'])
+        .pipe(gulp.dest(installedDir));
+
+    return merge(publicDirPipe, mainJsPipe);
+});
+
+gulp.task('deploy', ['install'], function() {
+    return gulp.src([installedDir + '/**/*'])
+        .pipe(zip('distribuition.zip'))
+        .pipe(gulp.dest(targetDir))
+        .pipe(notify({message: 'Deploy task finished', onLast: true}));
 });
 
 gulp.task('watch', function() {
@@ -75,6 +108,7 @@ gulp.task('watch', function() {
     gulp.watch(cssDir + '/**/*.css', ['styles']);
     gulp.watch(bowerDep + '/**/*.css', ['styles']);
     gulp.watch(imgDir + '/**/*', ['images']);
+    gulp.watch(templateDir + '/**/*.html', ['templates']);
     gulp.watch(clientDir + '/*.html', ['htmls']);
 });
 
