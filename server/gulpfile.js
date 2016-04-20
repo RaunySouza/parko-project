@@ -1,10 +1,11 @@
-var gulp = require('gulp'),
-    cleanCss = require('gulp-clean-css'),
-    concat = require('gulp-concat'),
-    notify = require('gulp-notify'),
-    del = require('del'),
-    cache = require('gulp-cache'),
-    imagemin = require('gulp-imagemin');
+var gulp       = require('gulp'),
+    cleanCss   = require('gulp-clean-css'),
+    concat     = require('gulp-concat'),
+    notify     = require('gulp-notify'),
+    del        = require('del'),
+    cache      = require('gulp-cache'),
+    imagemin   = require('gulp-imagemin'),
+    nodemon    = require('gulp-nodemon');
 
 var clientDir = '../client';
 var jsDir = clientDir + '/js';
@@ -15,6 +16,10 @@ var bowerDep = clientDir + "/bower_components";
 
 var publicDir = 'public';
 var assetsDir = publicDir + '/assets';
+
+gulp.task('develop', function () {
+  nodemon({script: './app.js', ext: 'js hjs json', legacyWatch: true });
+});
 
 // Clean
 gulp.task('clean', function() {
@@ -72,3 +77,5 @@ gulp.task('watch', function() {
     gulp.watch(imgDir + '/**/*', ['images']);
     gulp.watch(clientDir + '/*.html', ['htmls']);
 });
+
+gulp.task('default', ['develop', 'build']);
