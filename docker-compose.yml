@@ -1,5 +1,7 @@
 version: '2'
 services:
+  mongo:
+    image: mongo
   node:
     build:
       context: .
@@ -7,6 +9,10 @@ services:
     volumes:
         - "./app:/src/app"
     command: gulp --gulpfile app/gulpfile.js
+    links:
+      - mongo:mongo
     ports:
-    - "3000:3000"
-    - "35729:35729"
+      - "3000:3000"
+      - "35729:35729"
+    environment:
+      - MONGODB_URL=mongodb://mongo/parko-project

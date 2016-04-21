@@ -69,6 +69,13 @@
                             <div ng-message="required">Campo requerido.</div>
                         </div>
                     </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Placa</label>
+                        <input required name="plate" ng-model="user.vehicle.plate" />
+                        <div ng-messages="userForm.plate.$error">
+                            <div ng-message="required">Campo requerido.</div>
+                        </div>
+                    </md-input-container>
                 </div>
             </div>
         </md-dialog-content>

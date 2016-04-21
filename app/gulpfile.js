@@ -89,4 +89,4 @@ gulp.task('watch', function() {
     gulp.watch(clientDir + '/*.html', ['htmls']);
 });
 
-gulp.task('default', ['develop', 'build']);
+gulp.task('default', ['develop', 'build', 'watch']);
