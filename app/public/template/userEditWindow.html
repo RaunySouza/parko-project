@@ -1,0 +1,86 @@
+<md-dialog ng-cloak class="editionWindow">
+    <form name="userForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Novo Usuário</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="assets/img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container class="md-block">
+                    <label>Nome</label>
+                    <input required name="name" ng-model="user.name" />
+                    <div ng-messages="userForm.name.$error">
+                        <div ng-message="required">Campo requerido.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>E-mail</label>
+                    <input type="email" required name="email" ng-model="user.email" />
+                    <div ng-messages="userForm.name.$error">
+                        <div ng-message="required">Campo requerido.</div>
+                        <div ng-message="valid">Por favor, digite um e-mail válido</div>
+                    </div>
+                </md-input-container>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Marca</label>
+                        <md-select required ng-model="user.vehicle.vendor">
+                            <md-option value="Audi">Audi</md-option>
+                            <md-option value="BMW">BMW</md-option>
+                            <md-option value="Chery">Chery</md-option>
+                            <md-option value="Chevrolet">Chevrolet</md-option>
+                            <md-option value="Citroën">Citroën</md-option>
+                            <md-option value="Dodge">Dodge</md-option>
+                            <md-option value="Fiat">Fiat</md-option>
+                            <md-option value="Ford">Ford</md-option>
+                            <md-option value="Honda">Honda</md-option>
+                            <md-option value="Hyundai">Hyundai</md-option>
+                            <md-option value="Jac">Jac</md-option>
+                            <md-option value="Jeep">Jeep</md-option>
+                            <md-option value="Kia">Kia</md-option>
+                            <md-option value="Lifan">Lifan</md-option>
+                            <md-option value="Mitsubish">Mitsubish</md-option>
+                            <md-option value="Nissan">Nissan</md-option>
+                            <md-option value="Peugeot">Peugeot</md-option>
+                            <md-option value="Renault">Renault</md-option>
+                            <md-option value="Suzuki">Suzuki</md-option>
+                            <md-option value="Toyota">Toyota</md-option>
+                            <md-option value="Troller">Troller</md-option>
+                            <md-option value="Volkswagen">Volkswagen</md-option>
+                            <md-option value="Outros">Outros</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Modelo</label>
+                        <input required name="model" ng-model="user.vehicle.model" />
+                        <div ng-messages="userForm.model.$error">
+                            <div ng-message="required">Campo requerido.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Cor</label>
+                        <input required name="color" ng-model="user.vehicle.color" />
+                        <div ng-messages="userForm.color.$error">
+                            <div ng-message="required">Campo requerido.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary"
+                       ng-click="save(user)"
+                       ng-disabled="!userForm.$valid">
+                Salvar
+            </md-button>
+            <md-button class="md-raised" ng-click="cancel()">
+                Cancelar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

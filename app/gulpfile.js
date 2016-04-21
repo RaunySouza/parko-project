@@ -6,21 +6,23 @@ var gulp = require('gulp'),
     cache = require('gulp-cache'),
     imagemin = require('gulp-imagemin'),
     zip = require('gulp-zip'),
-    merge = require('merge-stream');
+    merge = require('merge-stream'),
+    nodemon = require('gulp-nodemon');
 
-var clientDir = '../client';
+var clientDir = './client';
 var jsDir = clientDir + '/js';
 var cssDir = clientDir + '/css';
 var imgDir = clientDir + '/img';
 var templateDir = clientDir + '/template';
 
-var bowerDep = clientDir + "/bower_components";
+var bowerDep = "./bower_components";
 
 var publicDir = 'public';
 var assetsDir = publicDir + '/assets';
 
-var targetDir = 'target';
-var installedDir = targetDir + '/installed';
+gulp.task('develop', function () {
+  nodemon({script: './bin/www', ext: 'js hjs json', legacyWatch: true });
+});
 
 // Clean
 gulp.task('clean', function() {
@@ -77,26 +79,6 @@ gulp.task('build', ['clean'], function() {
     gulp.start('scripts', 'styles', 'images', 'templates', 'htmls');
 });
 
-gulp.task('clean-target', function() {
-    return del([targetDir + '/*']);
-});
-
-gulp.task('install', ['clean-target'],function() {
-    var publicDirPipe = gulp.src([publicDir + '/**/*'])
-        .pipe(gulp.dest(installedDir + '/public'));
-    var mainJsPipe = gulp.src(['main.js', 'package.json'])
-        .pipe(gulp.dest(installedDir));
-
-    return merge(publicDirPipe, mainJsPipe);
-});
-
-gulp.task('deploy', ['install'], function() {
-    return gulp.src([installedDir + '/**/*'])
-        .pipe(zip('distribuition.zip'))
-        .pipe(gulp.dest(targetDir))
-        .pipe(notify({message: 'Deploy task finished', onLast: true}));
-});
-
 gulp.task('watch', function() {
     gulp.watch(jsDir + '/**/*.js', ['scripts']);
     gulp.watch(bowerDep + '/**/*.js', ['scripts']);
@@ -106,3 +88,5 @@ gulp.task('watch', function() {
     gulp.watch(templateDir + '/**/*.html', ['templates']);
     gulp.watch(clientDir + '/*.html', ['htmls']);
 });
+
+gulp.task('default', ['develop', 'build']);
