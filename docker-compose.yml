@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile.development
     volumes:
-        - "./server:/src/server"
-    command: gulp --gulpfile server/gulpfile.js
+        - "./app:/src/app"
+    command: gulp --gulpfile app/gulpfile.js
     ports:
     - "3000:3000"
     - "35729:35729"
