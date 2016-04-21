@@ -1,3 +1,4 @@
+var fs = require('fs');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,7 +6,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var users = require('./routes/users');
+// database setup
+var mongoose = require('mongoose');
+var mongodbUrl = process.env.MONGODB_URL || 'mongodb://localhost/parko-project';
+mongoose.connect(mongodbUrl);
+// Bootstrap models
+fs.readdirSync(__dirname + '/models').forEach(function (file) {
+  if (~file.indexOf('.js')) require(__dirname + '/models/' + file);
+});
+
 
 var app = express();
 
@@ -21,6 +30,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes setup
+var users = require('./routes/users');
 app.use('/users', users);
 
 // catch 404 and forward to error handler

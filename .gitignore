@@ -109,3 +109,6 @@ bower_components
 .bower-cache
 .bower-registry
 .bower-tmp
+
+app/public
+!app/public/.empty
