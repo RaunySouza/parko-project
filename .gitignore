@@ -110,5 +110,5 @@ bower_components
 .bower-registry
 .bower-tmp
 
-app/public
+app/public/*
 !app/public/.empty
