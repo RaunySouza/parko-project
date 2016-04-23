@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
+'use strict';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+module.exports = function(parko) {
+    var router = parko.createRouter();
+    /* GET home page. */
+    router.get('/', function(req, res, next) {
+        res.render('index', { title: 'Express' });
+    });
 
-module.exports = router;
+    parko.registerRoute('/', router);
+    return router;
+}

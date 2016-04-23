@@ -1,16 +1,15 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
-var User = User = mongoose.model('User');
+module.exports = function(parko) {
+    var router = parko.createRouter();
+    var userController = parko.controllers.user;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  var test = new User({name: 'Manoel Amaro'});
-  test.save(function (err) {
-    res.send(test);
-  });
-});
+    router.get('/', userController.index);
+    router.get('/:id', userController.show);
+    router.post('/', userController.create);
+    router.put('/:id', userController.edit);
+    router.delete('/:id', userController.delete)
 
-module.exports = router;
+    parko.registerRoute("/users", router);
+    return router;
+}

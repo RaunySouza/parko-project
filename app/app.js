@@ -5,16 +5,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var load = require('express-load');
 
 // database setup
 var mongoose = require('mongoose');
 var mongodbUrl = process.env.MONGODB_URL || 'mongodb://localhost/parko-project';
 mongoose.connect(mongodbUrl);
-// Bootstrap models
-fs.readdirSync(__dirname + '/models').forEach(function (file) {
-  if (~file.indexOf('.js')) require(__dirname + '/models/' + file);
-});
-
 
 var app = express();
 
@@ -30,9 +26,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes setup
-var users = require('./routes/users');
-app.use('/users', users);
+var parko = {
+    express: express,
+    app: app,
+    mongoose: mongoose,
+    createRouter: function() {
+        return this.express.Router()
+    },
+    registerRoute: function(name, router) {
+        this.app.use(name, router);
+    },
+    getModel: function(model) {
+        return this.mongoose.model(model);
+    }
+}
+
+load('models')
+    .then('controllers')
+    .then('routes')
+    .into(parko);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
