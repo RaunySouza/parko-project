@@ -47,13 +47,15 @@ var parko = {
     registerModel: function(name, schema) {
         schema.plugin(this.db.plugins.autoIncrement.plugin, {
             model: name,
-            field: 'id' //Adding a field numeric auto increment
+            field: 'id',
+            startAt: 1 //Adding a field numeric auto increment
         });
         return this.db.mongoose.model(name, schema);
     }
 }
 
-load('models')
+load('modules')
+    .then('models')
     .then('controllers')
     .then('routes')
     .into(parko);

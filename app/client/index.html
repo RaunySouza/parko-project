@@ -87,10 +87,13 @@
                                         </md-button>
                                         <md-menu-content>
                                             <md-menu-item>
-                                                <md-button>Editar</md-button>
+                                                <md-button ng-click="openEditionWindow($event, user)">Editar</md-button>
                                             </md-menu-item>
                                             <md-menu-item>
                                                 <md-button>Bloquear</md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="delete($event, user)">Remover</md-button>
                                             </md-menu-item>
                                         </md-menu-content>
                                     </md-menu>
@@ -110,8 +113,8 @@
         </section>
     </div>
 
-    <footer>
-        <p>All Rights Reserved</p>
+    <footer id="content-footer" layout="row" layout-align="center center">
+        <p>2016 &copy; All Rights Reserved</p>
     </footer>
 
     <script src="assets/js/main.js"></script>
