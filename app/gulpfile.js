@@ -32,11 +32,13 @@ gulp.task('clean', function() {
 gulp.task('scripts', function() {
     return gulp.src([
         bowerDep + "/angular/angular.js",
+        bowerDep + "/angular-resource/angular-resource.js",
         bowerDep + "/angular-aria/angular-aria.js",
         bowerDep + "/angular-animate/angular-animate.js",
         bowerDep + "/angular-material/angular-material.js",
         bowerDep + "/angular-messages/angular-messages.js",
         bowerDep + "/angular-material-data-table/dist/md-data-table.min.js",
+        jsDir + "/resources.js",
         jsDir + "/main.js"
     ])
     .pipe(concat("main.js"))

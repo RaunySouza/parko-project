@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(parko) {
-    var mongoose = parko.mongoose;
+    var mongoose = parko.db.mongoose;
     const Schema = mongoose.Schema;
 
     const VehicleSchema = new Schema({
@@ -11,7 +11,5 @@ module.exports = function(parko) {
         plate: {type: String, required: true}
     });
 
-    mongoose.model('Vehicle', VehicleSchema);
-
-    return VehicleSchema;
+    return parko.registerModel('Vehicle', VehicleSchema);
 }

@@ -6,11 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var load = require('express-load');
+var autoIncrement = require('mongoose-auto-increment');
 
 // database setup
 var mongoose = require('mongoose');
 var mongodbUrl = process.env.MONGODB_URL || 'mongodb://localhost/parko-project';
 mongoose.connect(mongodbUrl);
+
+autoIncrement.initialize(mongoose);
 
 var app = express();
 
@@ -29,15 +32,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 var parko = {
     express: express,
     app: app,
-    mongoose: mongoose,
+    db: {
+        mongoose: mongoose,
+        plugins: {
+            autoIncrement: autoIncrement
+        }
+    },
     createRouter: function() {
         return this.express.Router()
     },
     registerRoute: function(name, router) {
         this.app.use(name, router);
     },
-    getModel: function(model) {
-        return this.mongoose.model(model);
+    registerModel: function(name, schema) {
+        schema.plugin(this.db.plugins.autoIncrement.plugin, {
+            model: name,
+            field: 'id' //Adding a field numeric auto increment
+        });
+        return this.db.mongoose.model(name, schema);
     }
 }
 

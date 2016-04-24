@@ -1,16 +1,41 @@
 'use strict';
 
 module.exports = function(parko) {
-    var User = parko.getModel('User');
-    var Vehicle = parko.getModel('Vehicle');
+    var User = parko.models.user;
+    var Vehicle = parko.models.vehicle;
 
     var UserController = {
         index: function(req, res, next) {
-            User.find()
-                .populate('vehicle')
-                .exec(function (err, users) {
-                    res.json(users);
-                });
+            var response = {
+                count: 0,
+                data: []
+            };
+
+            User.count(function(err, count) {
+                if (err)
+                    res.send(err);
+                else {
+                    response.count = count;
+
+                    // Check if it has pagination
+                    var limit = Math.min(count, req.query.limit);
+                    var page = Math.max(0, req.query.page - 1);
+
+                    User.find()
+                        .limit(limit)
+                        .skip(limit * page)
+                        .sort({id: 'desc'})
+                        .populate('vehicle')
+                        .exec(function (err, users) {
+                            if (err)
+                                res.send(err);
+                            else {
+                                response.data = users;
+                                res.json(response);
+                            }
+                        });
+                }
+            });
         },
         show: function(req, res, next) {
             User.findById(req.params.id)
@@ -30,8 +55,8 @@ module.exports = function(parko) {
                 if (err) {
                     res.send(err);
                 } else {
+                    req.body.vehicle = vehicle._id;
                     var user = new User(req.body);
-                    user.vehicle = vehicle._id;
 
                     user.save(function(err) {
                         if (err) {

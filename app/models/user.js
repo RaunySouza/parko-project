@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(parko) {
-    var mongoose = parko.mongoose;
+    var mongoose = parko.db.mongoose;
     const Schema = mongoose.Schema;
 
     const UserSchema = new Schema({
@@ -10,7 +10,5 @@ module.exports = function(parko) {
         vehicle: {type: Schema.Types.ObjectId, ref: 'Vehicle', required: true}
     });
 
-    mongoose.model('User', UserSchema);
-
-    return UserSchema;
+    return parko.registerModel('User', UserSchema);
 }
