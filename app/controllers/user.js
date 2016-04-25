@@ -2,7 +2,6 @@
 
 module.exports = function(parko) {
     var User = parko.models.user;
-    var Vehicle = parko.models.vehicle;
 
     var UserController = parko.modules.controller.createController();
 
@@ -26,7 +25,6 @@ module.exports = function(parko) {
                     .limit(limit)
                     .skip(limit * page)
                     .sort({id: 'desc'})
-                    .populate('vehicle')
                     .exec(function (err, users) {
                         if (err)
                             res.status(500).json(UserController.createErrorResponse(err.name, err.message));
@@ -41,7 +39,6 @@ module.exports = function(parko) {
 
     UserController.get = function(req, res, next) {
         User.findById(req.params.id)
-            .populate('vehicle')
             .exec(function(err, user) {
                 if (err) {
                     res.status(500).json(UserController.createErrorResponse(err.name, err.message));
@@ -52,22 +49,12 @@ module.exports = function(parko) {
     }
 
     UserController.create = function(req, res, next) {
-        var vehicle = new Vehicle(req.body.vehicle);
-
-        vehicle.save(function(err) {
+        var user = new User(req.body);
+        user.save(function(err) {
             if (err) {
                 res.status(500).json(UserController.createErrorResponse(err.name, err.message));
             } else {
-                req.body.vehicle = vehicle._id;
-                var user = new User(req.body);
-
-                user.save(function(err) {
-                    if (err) {
-                        res.status(500).json(UserController.createErrorResponse(err.name, err.message));
-                    } else {
-                        res.json(UserController.createSuccessResponse(user));
-                    }
-                });
+                res.json(UserController.createSuccessResponse(user));
             }
         });
     }
@@ -77,48 +64,19 @@ module.exports = function(parko) {
             if (err)
                 res.status(500).json(UserController.createErrorResponse(err.name, err.message));
             else {
-                Vehicle.update({_id: req.body.vehicle._id}, req.body.vehicle, {new:true}, function(err, vehicle) {
-                    if (err)
-                        res.status(500).json(UserController.createErrorResponse(err.name, err.message));
-                    else
-                        res.json(UserController.createSuccessResponse({}));
-                });
-
+                res.json(UserController.createSuccessResponse({}));
             }
         });
     }
 
     UserController.delete = function(req, res, next) {
-        User.findById(req.params.id, function(err, user) {
+        User.remove({_id: req.params.id}, function(err) {
             if (err)
                 res.status(500).json(UserController.createErrorResponse(err.name, err.message));
             else {
-                User.remove({_id: user._id}, function(err) {
-                    if (err) {
-                        res.status(500).json(UserController.createErrorResponse(err.name, err.message));
-                    } else {
-                        Vehicle.remove({_id: user.vehicle}, function(err) {
-                            if (err)
-                                res.status(500).json(UserController.createErrorResponse(err.name, err.message));
-                            else
-                                res.json(UserController.createSuccessResponse({}));
-                        })
-                    }
-                });
+                res.json(UserController.createSuccessResponse({}));
             }
-        });
-        /*User.remove({_id: req.params.id}, function(err) {
-            if (err) {
-                res.status(500).json(UserController.createErrorResponse(err.name, err.message));
-            } else {
-                Vehicle.remove({_id: req.body.vehicle._id}, function(err) {
-                    if (err)
-                        res.status(500).json(UserController.createErrorResponse(err.name, err.message));
-                    else
-                        es.json(UserController.createSuccessResponse({}));
-                })
-            }
-        });*/
+        })
     }
 
     return UserController;

@@ -69,6 +69,7 @@
                                 <th md-column>Modelo</th>
                                 <th md-column>Placa</th>
                                 <th md-column>Cor</th>
+                                <th md-column>Bloqueado</th>
                                 <th md-column>Ações</th>
                             </tr>
                         </thead>
@@ -80,6 +81,7 @@
                                 <td md-cell>{{user.vehicle.model}}</td>
                                 <td md-cell>{{user.vehicle.plate}}</td>
                                 <td md-cell>{{user.vehicle.color}}</td>
+                                <td md-cell>{{user.status ? 'Sim' : 'Não'}}</td>
                                 <td md-cell>
                                     <md-menu>
                                         <md-button aria-label="Open Actions Menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -90,7 +92,7 @@
                                                 <md-button ng-click="openEditionWindow($event, user)">Editar</md-button>
                                             </md-menu-item>
                                             <md-menu-item>
-                                                <md-button>Bloquear</md-button>
+                                                <md-button>{{user.is_blocked ? 'Desbloquear' : 'Bloquear'}}</md-button>
                                             </md-menu-item>
                                             <md-menu-item>
                                                 <md-button ng-click="delete($event, user)">Remover</md-button>
