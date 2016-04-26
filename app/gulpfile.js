@@ -38,6 +38,8 @@ gulp.task('scripts', function() {
         bowerDep + "/angular-material/angular-material.js",
         bowerDep + "/angular-messages/angular-messages.js",
         bowerDep + "/angular-material-data-table/dist/md-data-table.min.js",
+        bowerDep + "/ngMask/dist/ngMask.min.js",
+        jsDir + "/directives.js",
         jsDir + "/resources.js",
         jsDir + "/main.js"
     ])

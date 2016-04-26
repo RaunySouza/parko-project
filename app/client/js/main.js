@@ -1,5 +1,5 @@
 (function() {
-    angular.module( 'Parko', [ 'ngMaterial', 'md.data.table', 'ngMessages', 'parko.resources' ] )
+    angular.module( 'Parko', [ 'ngMaterial', 'md.data.table', 'ngMessages', 'ngMask', 'parko.resources', 'parko.directives' ] )
         .controller("ConfigController", function($scope) {
             $scope.config = {
                 availableControllers: 20
@@ -68,6 +68,7 @@
             $mdDialog.cancel();
         };
         $scope.save = function(user) {
+            $scope.saving = true;
             if ($scope.user._id) {
                 Users.update({id: $scope.user._id}, user, function(response) {
                     if (response.result === 'OK') {
@@ -77,6 +78,7 @@
                 },
                 function(err) {
                     Alert(err.data.resultData.message);
+                    $scope.saving = false;
                 })
             } else {
                 Users.save(user, function(response) {
@@ -87,6 +89,7 @@
                 },
                 function(err) {
                     Alert(err.data.resultData.message);
+                    $scope.saving = false;
                 });
             }
         };
