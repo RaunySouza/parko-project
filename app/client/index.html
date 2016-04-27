@@ -92,7 +92,7 @@
                                                 <md-button ng-click="openEditionWindow($event, user)">Editar</md-button>
                                             </md-menu-item>
                                             <md-menu-item>
-                                                <md-button>{{user.is_blocked ? 'Desbloquear' : 'Bloquear'}}</md-button>
+                                                <md-button ng-click="blockUser($event, user)">{{user.is_blocked ? 'Desbloquear' : 'Bloquear'}}</md-button>
                                             </md-menu-item>
                                             <md-menu-item>
                                                 <md-button ng-click="delete($event, user)">Remover</md-button>

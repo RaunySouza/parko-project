@@ -7,6 +7,8 @@ module.exports = function(parko) {
     const UserSchema = new Schema({
         name:  {type: String, required: true},
         email: {type: String, required: true},
+        department: {type: String, required: true},
+        referenceDate: {type: Date, required:true, default: Date.now()},
         is_blocked: {type: Boolean, required: true, default: false},
         vehicle: {
             vendor: {type: String, required: true},
