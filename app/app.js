@@ -4,12 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var load = require('express-load');
 var autoIncrement = require('mongoose-auto-increment');
+var passport = require('passport');
+var consign = require('consign');
 
 // database setup
 var mongoose = require('mongoose');
-var mongodbUrl = process.env.MONGODB_URL || 'mongodb://localhost/parko-project';
+var mongodbUrl = process.env.MONGODB_URL || 'mongodb://192.168.1.181:27017/parko-project';
 mongoose.connect(mongodbUrl);
 
 autoIncrement.initialize(mongoose);
@@ -27,6 +28,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+    next();
+});
 
 var parko = {
     express: express,
@@ -53,7 +60,8 @@ var parko = {
     }
 }
 
-load('modules')
+consign()
+    .include('modules')
     .then('models')
     .then('controllers')
     .then('routes')
@@ -89,6 +97,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

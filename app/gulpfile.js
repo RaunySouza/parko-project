@@ -7,13 +7,16 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     zip = require('gulp-zip'),
     merge = require('merge-stream'),
-    nodemon = require('gulp-nodemon');
+    nodemon = require('gulp-nodemon'),
+    coffee = require('gulp-coffee'),
+    gutil = require('gulp-util');
 
 var clientDir = './client';
 var jsDir = clientDir + '/js';
 var cssDir = clientDir + '/css';
 var imgDir = clientDir + '/img';
 var templateDir = clientDir + '/template';
+var tempDir = clientDir + "/tmp";
 
 var bowerDep = "./bower_components";
 
@@ -29,7 +32,13 @@ gulp.task('clean', function() {
     return del([publicDir + "/*"]);
 });
 
-gulp.task('scripts', function() {
+gulp.task('coffee', function() {
+  gulp.src(jsDir + '/*.coffee')
+    .pipe(coffee({bare: false}).on('error', gutil.log))
+    .pipe(gulp.dest(tempDir + '/js'));
+});
+
+gulp.task('scripts', ['coffee'], function() {
     return gulp.src([
         bowerDep + "/angular/angular.js",
         bowerDep + "/angular-resource/angular-resource.js",
@@ -39,8 +48,11 @@ gulp.task('scripts', function() {
         bowerDep + "/angular-messages/angular-messages.js",
         bowerDep + "/angular-material-data-table/dist/md-data-table.min.js",
         bowerDep + "/ngMask/dist/ngMask.min.js",
+        bowerDep + "/angular-route/angular-route.min.js",
         jsDir + "/directives.js",
         jsDir + "/resources.js",
+        tempDir + "/js/routes.js",
+        tempDir + "/js/login.js",
         jsDir + "/main.js"
     ])
     .pipe(concat("main.js"))
@@ -84,6 +96,7 @@ gulp.task('build', ['clean'], function() {
 });
 
 gulp.task('watch', function() {
+    gulp.watch(jsDir + '/**/*.coffee', ['scripts']);
     gulp.watch(jsDir + '/**/*.js', ['scripts']);
     gulp.watch(bowerDep + '/**/*.js', ['scripts']);
     gulp.watch(cssDir + '/**/*.css', ['styles']);

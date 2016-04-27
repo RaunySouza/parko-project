@@ -10,6 +10,6 @@ module.exports = function(parko) {
     router.put('/:id', configController.update);
     router.delete('/:id', configController.delete)
 
-    parko.registerRoute("/config", router);
+    parko.registerRoute("/config_", router);
     return router;
 }
