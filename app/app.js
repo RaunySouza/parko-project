@@ -10,7 +10,7 @@ var consign = require('consign');
 
 // database setup
 var mongoose = require('mongoose');
-var mongodbUrl = process.env.MONGODB_URL || 'mongodb://localhost/parko-project';
+var mongodbUrl = process.env.MONGODB_URL || 'mongodb://192.168.1.181:27017/parko-project';
 mongoose.connect(mongodbUrl);
 
 autoIncrement.initialize(mongoose);
@@ -97,10 +97,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
-app.post('/authenticate', function(req, res) {
-
-});
-
 
 module.exports = app;

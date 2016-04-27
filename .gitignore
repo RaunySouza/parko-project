@@ -115,3 +115,5 @@ bower_components
 
 app/public/*
 !app/public/.empty
+
+tmp

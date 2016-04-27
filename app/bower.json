@@ -21,6 +21,7 @@
     "angular-material": "^1.0.7",
     "angular-material-data-table": "^0.10.5",
     "angular-resource": "^1.5.5",
-    "ngMask": "angular-mask#^3.0.16"
+    "ngMask": "angular-mask#^3.0.16",
+    "angular-route": "^1.5.5"
   }
 }
