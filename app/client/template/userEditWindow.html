@@ -18,18 +18,33 @@
                         <div ng-message="required">Campo requerido.</div>
                     </div>
                 </md-input-container>
-                <md-input-container class="md-block">
-                    <label>E-mail</label>
-                    <input type="email" required name="email" ng-model="user.email" />
-                    <div ng-messages="userForm.name.$error">
-                        <div ng-message="required">Campo requerido.</div>
-                        <div ng-message="valid">Por favor, digite um e-mail válido</div>
-                    </div>
-                </md-input-container>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex>
+                        <label>E-mail</label>
+                        <input type="email" required name="email" ng-model="user.email" ng-pattern="/^.+@.+\..+$/"/>
+                        <div ng-messages="userForm.email.$error">
+                            <div ng-message="required">Campo requerido.</div>
+                            <div ng-message="pattern">Por favor, digite um e-mail válido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex>
+                        <label>Setor</label>
+                        <md-select name="department" required ng-model="user.department">
+                            <md-option value="Adm">Administrativo</md-option>
+                            <md-option value="Development">Desenvolvimento</md-option>
+                            <md-option value="Suport">Suporte</md-option>
+                            <md-option value="Test">Teste</md-option>
+                        </md-select>
+                        <!--<input required name="color" ng-model="user.vehicle.color" /> -->
+                        <div ng-messages="userForm.department.$error">
+                            <div ng-message="required">Campo requerido.</div>
+                        </div>
+                    </md-input-container>
+                </div>
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Marca</label>
-                        <md-select required ng-model="user.vehicle.vendor">
+                        <md-select name="vendor" required ng-model="user.vehicle.vendor">
                             <md-option value="Audi">Audi</md-option>
                             <md-option value="BMW">BMW</md-option>
                             <md-option value="Chery">Chery</md-option>
@@ -54,6 +69,9 @@
                             <md-option value="Volkswagen">Volkswagen</md-option>
                             <md-option value="Outros">Outros</md-option>
                         </md-select>
+                        <div ng-messages="userForm.vendor.$error">
+                            <div ng-message="required">Campo requerido.</div>
+                        </div>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Modelo</label>
@@ -64,7 +82,7 @@
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Cor</label>
-                        <md-select required ng-model="user.vehicle.color">
+                        <md-select name="color" required ng-model="user.vehicle.color">
                             <md-option value="Yellow">Amarelo</md-option>
                             <md-option value="Blue">Azul</md-option>
                             <md-option value="White">Branco</md-option>

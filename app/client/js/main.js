@@ -36,7 +36,7 @@
             $scope.openEditionWindow = function(ev, selected) {
                 var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
                 $mdDialog.show({
-                    controller: DialogController,
+                    controller: EditionController,
                     templateUrl: 'template/userEditWindow.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
@@ -58,8 +58,38 @@
                     $scope.getUsers();
                 });
             }
+
+            $scope.blockUser = function(ev, selected) {
+                var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+                $mdDialog.show({
+                   controller: BlockerController,
+                    templateUrl: 'template/blockUserWindow.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: false,
+                    fullscreen: useFullScreen,
+                    locals: {
+                        selected: selected
+                    }
+                })
+                .then(function(user) {
+
+                });
+            }
         });
-    function DialogController($scope, $mdDialog, Users, Alert, Clone, selected) {
+    function BlockerController($scope, $mdDialog, Users, Alert, Clone, selected) {
+        $scope.user = Clone(selected);
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        }
+
+        $scope.block = function (user) {
+            $mdDialog.hide(user);
+        }
+    }
+
+    function EditionController($scope, $mdDialog, Users, Alert, Clone, selected) {
         $scope.user = Clone(selected);
         $scope.hide = function() {
             $mdDialog.hide();
