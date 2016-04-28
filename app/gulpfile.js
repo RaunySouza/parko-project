@@ -33,7 +33,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('coffee', function() {
-    return gulp.src(jsDir + '/*.coffee')
+    return gulp.src(jsDir + '/**/*.coffee')
         .pipe(coffee({bare: false}).on('error', gutil.log))
         .pipe(gulp.dest(tempDir + '/js'));
 });
@@ -53,6 +53,8 @@ gulp.task('scripts', ['coffee'], function() {
         tempDir + "/js/resources.js",
         tempDir + "/js/routes.js",
         tempDir + "/js/login.js",
+        tempDir + "/js/controller/controller.js",
+        tempDir + "/js/controller/user.js",
         jsDir + "/main.js"
     ])
     .pipe(concat("main.js"))
