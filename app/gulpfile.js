@@ -24,7 +24,7 @@ var publicDir = 'public';
 var assetsDir = publicDir + '/assets';
 
 gulp.task('develop', function () {
-  nodemon({script: './bin/www', ext: 'js hjs json', legacyWatch: true });
+    nodemon({script: './bin/www', ext: 'js hjs json', legacyWatch: true });
 });
 
 // Clean
@@ -33,9 +33,9 @@ gulp.task('clean', function() {
 });
 
 gulp.task('coffee', function() {
-  gulp.src(jsDir + '/*.coffee')
-    .pipe(coffee({bare: false}).on('error', gutil.log))
-    .pipe(gulp.dest(tempDir + '/js'));
+    return gulp.src(jsDir + '/*.coffee')
+        .pipe(coffee({bare: false}).on('error', gutil.log))
+        .pipe(gulp.dest(tempDir + '/js'));
 });
 
 gulp.task('scripts', ['coffee'], function() {
@@ -49,8 +49,8 @@ gulp.task('scripts', ['coffee'], function() {
         bowerDep + "/angular-material-data-table/dist/md-data-table.min.js",
         bowerDep + "/ngMask/dist/ngMask.min.js",
         bowerDep + "/angular-route/angular-route.min.js",
-        jsDir + "/directives.js",
-        jsDir + "/resources.js",
+        tempDir + "/js/directives.js",
+        tempDir + "/js/resources.js",
         tempDir + "/js/routes.js",
         tempDir + "/js/login.js",
         jsDir + "/main.js"
