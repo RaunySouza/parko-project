@@ -103,15 +103,16 @@ gulp.task('build', ['clean'], function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(jsDir + '/*.coffee', ['scripts']);
-    gulp.watch(jsDir + '/**/*.js', ['scripts']);
-    gulp.watch(bowerDep + '/**/*.js', ['scripts']);
-    gulp.watch(cssDir + '/**/*.css', ['styles']);
-    gulp.watch(bowerDep + '/**/*.css', ['styles']);
+    gulp.watch([jsDir + '/**/*.coffee', jsDir + '/**/*.js', bowerDep + '/**/*.js'], ['scripts']);
+    gulp.watch([cssDir + '/**/*.css', bowerDep + '/**/*.css'], ['styles']);
     gulp.watch(imgDir + '/**/*', ['images']);
     gulp.watch(templateDir + '/**/*.html', ['templates']);
     gulp.watch(clientDir + '/*.html', ['htmls']);
     gulp.watch(['controllers/**/*.js', 'models/**/*.js', 'modules/**/*.js', 'routes/**/*.js', 'app.js'], ['server']);
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'server', 'watch']);
+
+process.on('exit', function() {
+    if (node) node.kill()
+})
