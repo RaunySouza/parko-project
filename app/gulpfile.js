@@ -7,9 +7,9 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     zip = require('gulp-zip'),
     merge = require('merge-stream'),
-    nodemon = require('gulp-nodemon'),
     coffee = require('gulp-coffee'),
-    gutil = require('gulp-util');
+    gutil = require('gulp-util'),
+    spawn = require('child_process').spawn;
 
 var clientDir = './client';
 var jsDir = clientDir + '/js';
@@ -23,8 +23,16 @@ var bowerDep = "./bower_components";
 var publicDir = 'public';
 var assetsDir = publicDir + '/assets';
 
-gulp.task('develop', function () {
-  nodemon({script: './bin/www', ext: 'js hjs json', legacyWatch: true });
+var node;
+
+gulp.task('server', function () {
+  if (node) node.kill()
+    node = spawn('npm', ['start'], {stdio: 'inherit'})
+    node.on('close', function (code) {
+      if (code === 8) {
+        gulp.log('Error detected, waiting for changes...');
+      }
+    });
 });
 
 // Clean
@@ -51,8 +59,7 @@ gulp.task('scripts', ['coffee'], function() {
         bowerDep + "/angular-route/angular-route.min.js",
         jsDir + "/directives.js",
         jsDir + "/resources.js",
-        tempDir + "/js/routes.js",
-        tempDir + "/js/login.js",
+        tempDir + "/js/*.js",
         jsDir + "/main.js"
     ])
     .pipe(concat("main.js"))
@@ -96,7 +103,7 @@ gulp.task('build', ['clean'], function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(jsDir + '/**/*.coffee', ['scripts']);
+    gulp.watch(jsDir + '/*.coffee', ['scripts']);
     gulp.watch(jsDir + '/**/*.js', ['scripts']);
     gulp.watch(bowerDep + '/**/*.js', ['scripts']);
     gulp.watch(cssDir + '/**/*.css', ['styles']);
@@ -104,6 +111,7 @@ gulp.task('watch', function() {
     gulp.watch(imgDir + '/**/*', ['images']);
     gulp.watch(templateDir + '/**/*.html', ['templates']);
     gulp.watch(clientDir + '/*.html', ['htmls']);
+    gulp.watch(['controllers/**/*.js', 'models/**/*.js', 'modules/**/*.js', 'routes/**/*.js', 'app.js'], ['server']);
 });
 
-gulp.task('default', ['develop', 'build', 'watch']);
+gulp.task('default', ['build', 'watch']);

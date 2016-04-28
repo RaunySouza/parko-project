@@ -25,7 +25,7 @@ module.exports = function(parko) {
     }
 
     ConfigController.delete = function(req, res, next) {
-        
+
     }
 
     return ConfigController;

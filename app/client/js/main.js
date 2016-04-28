@@ -1,5 +1,5 @@
 (function() {
-    angular.module( 'Parko', [ 'ngMaterial', 'md.data.table', 'ngMessages', 'ngMask', 'parko.resources', 'parko.directives', 'parko.routes' ] )
+    angular.module( 'Parko', [ 'ngMaterial', 'md.data.table', 'ngMessages', 'ngMask', 'parko.resources', 'parko.directives', 'parko.routes', 'parko-toolbar-controller' ] )
         .controller("ConfigController", function($scope) {
             $scope.config = {
                 availableControllers: 20

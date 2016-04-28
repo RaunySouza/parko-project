@@ -7,9 +7,36 @@
     <title>Parko</title>
 </head>
 <body ng-app="Parko">
-    <md-toolbar>
+    <md-toolbar class="md-hue-2" ng-controller="ToolbarController as ctrl">
         <div class="md-toolbar-tools">
             <h1 id="appTitle">Parko</h1>
+            <span flex></span>
+            <md-menu>
+              <md-button class="md-icon-button" aria-label="More">
+                <md-icon md-svg-icon="/assets/img/icons/ic_more_vert_24px.svg" ng-click="ctrl.openMenu($mdOpenMenu, $event)"></md-icon>
+              </md-button>
+              <md-menu-content width="4">
+                <md-menu-item>
+                  <md-button>
+                    <md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>
+                    Redial
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button disabled="disabled">
+                    <md-icon md-svg-icon="call:voicemail"></md-icon>
+                    Check voicemail
+                  </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                  <md-button>
+                    <md-icon md-svg-icon="social:notifications-on"></md-icon>
+                    notifications
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
         </div>
     </md-toolbar>
     <div class="content" layout-margin layout="column" flex ng-cloak >
