@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module 'parko.controllers', ['$scope', '$mdDialog', '$mdMedia', 'Users', 'Alert', 'Confirmation', ($scope, $mdDialog, $mdMedia, Users, Alert, Confirmation) ->
+angular.module 'parko.controllers'
+.controller 'UserController', ['$scope', '$mdDialog', '$mdMedia', 'Users', 'Alert', 'Confirmation', ($scope, $mdDialog, $mdMedia, Users, Alert, Confirmation) ->
     $scope.selected = []
     $scope.user = {}
     $scope.query =
@@ -50,7 +51,17 @@ angular.module 'parko.controllers', ['$scope', '$mdDialog', '$mdMedia', 'Users',
         return
 
     $scope.blockUser = (ev, selected) ->
-
+        $mdDialog.show
+            controller: BlockerController,
+            templateUrl: 'template/blockUserWindow.html'
+            parent: angular.element(document.body)
+            targetEvent: ev
+            clickOutsideToClose:false
+            fullscreen: useFullScreens
+            locals:
+                selected: selected
+        .then (user) ->
+        return
 
     return
 ]
@@ -89,4 +100,18 @@ EditionController = ($scope, $mdDialog, Users, Alert, Clone, selected) ->
         Alert err.data.resultData.message
         $scope.saving = false
         return
+
+    return
+
+BlockerController = ($scope, $mdDialog, Users, Alert, Clone, selected) ->
+    $scope.user = Clone selected
+
+    $scope.hide = () ->
+        $mdDialog.hide()
+        return
+
+    $scope.cancel = () ->
+        $mdDialog.cancel()
+        return
+
     return

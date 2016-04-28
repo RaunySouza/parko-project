@@ -55,7 +55,8 @@ gulp.task('scripts', ['coffee'], function() {
         tempDir + "/js/login.js",
         tempDir + "/js/controller/controller.js",
         tempDir + "/js/controller/user.js",
-        jsDir + "/main.js"
+        tempDir + "/js/controller/config.js",
+        tempDir + "/js/main.js"
     ])
     .pipe(concat("main.js"))
     .pipe(gulp.dest(assetsDir + '/js'))
