@@ -79,5 +79,23 @@ module.exports = function(parko) {
         })
     }
 
+    UserController.block = function(req, res, next) {
+        User.update({_id: req.params.id}, {$set: {isBlocked: true}}, function(err, response) {
+            if (err)
+                res.status(500).json(UserController.createErrorResponse(err.name, err.message));
+            else
+                res.json(UserController.createSuccessResponse({}));
+        });
+    }
+
+    UserController.unblock = function(req, res, next) {
+        User.update({_id: req.params.id}, {$set: {isBlocked: false}}, function(err, response) {
+            if (err)
+                res.status(500).json(UserController.createErrorResponse(err.name, err.message));
+            else
+                res.json(UserController.createSuccessResponse({}));
+        });
+    }
+
     return UserController;
 }

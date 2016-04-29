@@ -10,13 +10,14 @@ var consign         = require('consign');
 
 // database setup
 var mongoose = require('mongoose');
-var mongodbUrl = process.env.MONGODB_URL || 'mongodb://192.168.1.181/parko-project';
+var mongodbUrl = process.env.MONGODB_URL || 'mongodb://192.168.99.100/parko-project';
 mongoose.connect(mongodbUrl);
 
 autoIncrement.initialize(mongoose);
 
 var app = express();
 
+app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

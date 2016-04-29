@@ -34,7 +34,7 @@ angular.module 'parko.controllers'
             parent: angular.element(document.body)
             targetEvent: ev
             clickOutsideToClose:false
-            fullscreen: useFullScreens
+            fullscreen: useFullScreen
             locals:
                 selected: selected
         .then (user) ->
@@ -51,16 +51,22 @@ angular.module 'parko.controllers'
         return
 
     $scope.blockUser = (ev, selected) ->
-        $mdDialog.show
-            controller: BlockerController,
-            templateUrl: 'template/blockUserWindow.html'
-            parent: angular.element(document.body)
-            targetEvent: ev
-            clickOutsideToClose:false
-            fullscreen: useFullScreens
-            locals:
-                selected: selected
-        .then (user) ->
+        unless selected.isBlocked
+            Users.block id: selected._id, (response) ->
+                selected.isBlocked = true
+                Alert 'Usuário Bloqueado'
+                return
+            , (err) ->
+                Alert err.data.resultData.message
+                return
+        else
+            Users.unblock id: selected._id, (response) ->
+                selected.isBlocked = false
+                Alert 'Usuário Desbloqueado'
+                return
+            , (err) ->
+                Alert err.data.resultData.message
+                return
         return
 
     return
@@ -99,19 +105,6 @@ EditionController = ($scope, $mdDialog, Users, Alert, Clone, selected) ->
     errorFunction = (err) ->
         Alert err.data.resultData.message
         $scope.saving = false
-        return
-
-    return
-
-BlockerController = ($scope, $mdDialog, Users, Alert, Clone, selected) ->
-    $scope.user = Clone selected
-
-    $scope.hide = () ->
-        $mdDialog.hide()
-        return
-
-    $scope.cancel = () ->
-        $mdDialog.cancel()
         return
 
     return

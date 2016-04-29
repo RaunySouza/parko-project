@@ -9,7 +9,7 @@ module.exports = function(parko) {
         email: {type: String, required: true},
         department: {type: String, required: true},
         referenceDate: {type: Date, required:true, default: Date.now()},
-        is_blocked: {type: Boolean, required: true, default: false},
+        isBlocked: {type: Boolean, required: true, default: false},
         vehicle: {
             vendor: {type: String, required: true},
             model: {type: String, required: true},

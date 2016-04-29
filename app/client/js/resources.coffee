@@ -22,6 +22,12 @@ resources.factory 'Users', ['$resource', ($resource) ->
     delete:
       method: 'DELETE'
       url: '/users/:id'
+    block:
+      method: 'PATCH'
+      url: '/users/block/:id'
+    unblock:
+      method: 'PATCH'
+      url: '/users/unblock/:id'
   }
 ]
 
