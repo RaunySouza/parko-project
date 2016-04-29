@@ -26,8 +26,8 @@ var assetsDir = publicDir + '/assets';
 var node;
 
 gulp.task('server', function () {
-  if (node) node.kill()
-    node = spawn('npm', ['start'], {stdio: 'inherit'})
+  if (node) node.kill();
+    node = spawn('npm', ['start'], {stdio: 'inherit'});
     node.on('close', function (code) {
       if (code === 8) {
         gulp.log('Error detected, waiting for changes...');
@@ -41,9 +41,9 @@ gulp.task('clean', function() {
 });
 
 gulp.task('coffee', function() {
-  gulp.src(jsDir + '/*.coffee')
-    .pipe(coffee({bare: false}).on('error', gutil.log))
-    .pipe(gulp.dest(tempDir + '/js'));
+    return gulp.src(jsDir + '/**/*.coffee')
+        .pipe(coffee({bare: false}).on('error', gutil.log))
+        .pipe(gulp.dest(tempDir + '/js'));
 });
 
 gulp.task('scripts', ['coffee'], function() {
@@ -57,10 +57,14 @@ gulp.task('scripts', ['coffee'], function() {
         bowerDep + "/angular-material-data-table/dist/md-data-table.min.js",
         bowerDep + "/ngMask/dist/ngMask.min.js",
         bowerDep + "/angular-route/angular-route.min.js",
-        jsDir + "/directives.js",
-        jsDir + "/resources.js",
-        tempDir + "/js/*.js",
-        jsDir + "/main.js"
+        tempDir + "/js/directives.js",
+        tempDir + "/js/resources.js",
+        tempDir + "/js/routes.js",
+        tempDir + "/js/login.js",
+        tempDir + "/js/controller/controller.js",
+        tempDir + "/js/controller/user.js",
+        tempDir + "/js/controller/config.js",
+        tempDir + "/js/main.js"
     ])
     .pipe(concat("main.js"))
     .pipe(gulp.dest(assetsDir + '/js'))
@@ -114,5 +118,5 @@ gulp.task('watch', function() {
 gulp.task('default', ['build', 'server', 'watch']);
 
 process.on('exit', function() {
-    if (node) node.kill()
-})
+    if (node) node.kill();
+});

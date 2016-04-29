@@ -100,10 +100,11 @@
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Placa</label>
-                        <input required name="plate" ng-model="user.vehicle.plate"
-                               clean="true" mask="AAA-9999" restrict="reject" capitalize/>
+                        <input required name="plate" ng-model="user.vehicle.plate" ng-pattern="/\w{3}-\d{4}\/\w{2}/"
+                               clean="true" mask="AAA-9999/AA" restrict="reject" capitalize/>
                         <div ng-messages="userForm.plate.$error">
                             <div ng-message="required">Campo requerido.</div>
+                            <div ng-message="pattern">Informe uma placa válida no formato ABC-1234/AB</div>
                         </div>
                     </md-input-container>
                 </div>
