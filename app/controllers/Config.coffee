@@ -1,12 +1,9 @@
 'use strict'
 
-Controller = require './Controller'
+Controller = require './controller'
 
 module.exports = (parko) ->
   class ConfigController extends Controller
-    constructor: (model) ->
-      @model = model;
-
     index: (req, res, next) ->
       response =
         count: 0

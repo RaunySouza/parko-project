@@ -55,8 +55,7 @@ parko =
     this.db.mongoose.model name, schema
 
 consign()
-.include 'modules'
-.then 'models'
+.include 'models'
 .then 'controllers'
 .then 'routes'
 .into parko
@@ -90,4 +89,3 @@ app.use (err, req, res, next) ->
   return
 
 module.exports = app
-

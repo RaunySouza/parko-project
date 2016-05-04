@@ -2,7 +2,7 @@
 
 module.exports = (parko) ->
   router = parko.createRouter()
-  configController = parko.controllers.Config
+  configController = parko.controllers.config
 
   router.get '/', configController.index
   router.get '/:id', configController.get

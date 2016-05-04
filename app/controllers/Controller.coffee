@@ -1,6 +1,8 @@
 'use strict'
 
 class Controller
+    constructor: (model) ->
+        @model = model;
   ###
     Create a basic response message
 
