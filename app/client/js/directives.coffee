@@ -7,7 +7,7 @@ directives.directive 'capitalize', () ->
     link: (scope, element, attrs, modelCtrl) ->
       capitalize = (inputValue) ->
         inputed = inputValue
-        inputed = '' unless inputed?
+        inputed ?= ''
 
         capitalized = inputed.toUpperCase();
         if capitalized != inputed
