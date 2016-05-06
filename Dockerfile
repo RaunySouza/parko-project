@@ -6,7 +6,7 @@ FROM node
 
 RUN mkdir /app
 
-RUN npm install -g gulp bower
+RUN npm install -g gulp bower coffee-script
 
 WORKDIR /app
 ADD app/package.json /app/package.json

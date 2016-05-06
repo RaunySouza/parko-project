@@ -9,7 +9,7 @@ var gulp = require('gulp'),
     merge = require('merge-stream'),
     coffee = require('gulp-coffee'),
     gutil = require('gulp-util'),
-    spawn = require('child_process').spawn;
+    nodemon = require('gulp-nodemon');
 
 var clientDir = './client';
 var jsDir = clientDir + '/js';
@@ -26,13 +26,12 @@ var assetsDir = publicDir + '/assets';
 var node;
 
 gulp.task('server', function () {
-  if (node) node.kill();
-    node = spawn('npm', ['start'], {stdio: 'inherit'});
-    node.on('close', function (code) {
-      if (code === 8) {
-        gulp.log('Error detected, waiting for changes...');
-      }
-    });
+  nodemon({
+      script: 'bin/www.coffee',
+      ext: 'coffee',
+      env: { 'NODE_ENV': 'development' },
+      legacyWatch: true
+    })
 });
 
 // Clean
@@ -113,7 +112,6 @@ gulp.task('watch', function() {
     gulp.watch(imgDir + '/**/*', ['images']);
     gulp.watch(templateDir + '/**/*.html', ['templates']);
     gulp.watch(clientDir + '/*.html', ['htmls']);
-    gulp.watch(['controllers/**/*.js', 'models/**/*.js', 'modules/**/*.js', 'routes/**/*.js', 'app.js'], ['server']);
 });
 
 gulp.task('default', ['build', 'server', 'watch']);

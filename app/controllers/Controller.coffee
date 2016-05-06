@@ -1,6 +1,6 @@
 'use strict'
 
-class Controller
+module.exports = class Controller
     constructor: (model) ->
         @model = model;
   ###
@@ -29,5 +29,3 @@ class Controller
     resultData:
       code: errCode
       message: errMessage
-
-module.exports = Controller

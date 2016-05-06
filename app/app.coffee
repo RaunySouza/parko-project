@@ -19,7 +19,7 @@ autoIncrement.initialize mongoose
 
 app = express()
 
-app.set 'view engine', 'jade'
+# app.set 'view engine', 'jade'
 #uncomment after placing your favicon in /public
 #app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
@@ -74,18 +74,20 @@ app.use (req, res, next) ->
 if app.get('env') is 'development'
   app.use (err, req, res, next) ->
     res.status err.status or 500
-    res.render 'error',
-      message: err.message
-      error: err
+      .json {
+        message: err.message
+        error: err
+      }
     return
 
 #production error handler
 #no stacktraces leaked to user
 app.use (err, req, res, next) ->
   res.status err.status or 500
-  res.render 'error',
-    message: err.message
-    error: {}
+    .json {
+      message: err.message
+      error: err
+    }
   return
 
 module.exports = app
