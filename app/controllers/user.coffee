@@ -13,7 +13,6 @@ module.exports = ->
 
 			@model.count (err, count) ->
 				if err?
-					debugger
 					res.status(500).json(self.createErrorResponse(err.name, err.message))
 				else
 					response.count = count
@@ -28,7 +27,6 @@ module.exports = ->
 					.sort id: 'desc'
 					.exec (err, users) ->
 						if err?
-							debugger
 							res.status(500).json(self.createErrorResponse(err.name, err.message))
 						else
 							response.data = users
@@ -96,7 +94,7 @@ module.exports = ->
 
 		unblock: (req, res) ->
 			self = @
-			
+
 			@model.update {_id: req.params.id}, {$set: isBlocked: false}, (err, response) ->
 				if err?
 					res.status(500).json(self.createErrorResponse(err.name, err.message))
