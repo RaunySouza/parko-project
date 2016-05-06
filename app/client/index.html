@@ -17,22 +17,8 @@
               </md-button>
               <md-menu-content width="4">
                 <md-menu-item>
-                  <md-button>
-                    <md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>
-                    Redial
-                  </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                  <md-button disabled="disabled">
-                    <md-icon md-svg-icon="call:voicemail"></md-icon>
-                    Check voicemail
-                  </md-button>
-                </md-menu-item>
-                <md-menu-divider></md-menu-divider>
-                <md-menu-item>
-                  <md-button>
-                    <md-icon md-svg-icon="social:notifications-on"></md-icon>
-                    notifications
+                  <md-button ng-click="ctrl.openConfig()">
+                    Configurações
                   </md-button>
                 </md-menu-item>
               </md-menu-content>

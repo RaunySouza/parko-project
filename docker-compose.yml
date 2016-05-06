@@ -16,3 +16,4 @@ services:
       - "35729:35729"
     environment:
       - MONGODB_URL=mongodb://mongo/parko-project
+      - DISABLE_NOTIFIER=true

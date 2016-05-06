@@ -1,8 +1,8 @@
 FROM node
 
-RUN apt-get update -qq && apt-get install -y build-essential
-RUN apt-get install -y ruby
-RUN gem install sass
+#RUN apt-get update -qq && apt-get install -y build-essential
+#RUN apt-get install -y ruby
+#RUN gem install sass
 
 RUN mkdir /app
 

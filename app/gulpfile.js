@@ -37,7 +37,7 @@ gulp.task('server', function () {
 
 // Clean
 gulp.task('clean', function() {
-    return del([publicDir + "/*"]);
+    return del([publicDir + "/*", "!" + publicDir + "/favicon.ico"]);
 });
 
 gulp.task('coffee', function() {
@@ -64,6 +64,7 @@ gulp.task('scripts', ['coffee'], function() {
         tempDir + "/js/controller/controller.js",
         tempDir + "/js/controller/user.js",
         tempDir + "/js/controller/config.js",
+        tempDir + "/js/controller/toolbar-controller.js",
         tempDir + "/js/main.js"
     ])
     .pipe(concat("main.js"))

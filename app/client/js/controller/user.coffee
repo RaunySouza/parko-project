@@ -34,7 +34,7 @@ angular.module 'parko.controllers'
             parent: angular.element(document.body)
             targetEvent: ev
             clickOutsideToClose:false
-            fullscreen: useFullScreens
+            fullscreen: useFullScreen
             locals:
                 selected: selected
         .then (user) ->
@@ -93,7 +93,7 @@ EditionController = ($scope, $mdDialog, Users, Alert, Clone, selected) ->
     successFunction = (response, message) ->
         if response.result is 'OK'
             Alert message
-            $mdDialog.hide user
+            $mdDialog.hide()
         return
 
     errorFunction = (err) ->
