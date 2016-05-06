@@ -1,92 +1,108 @@
 'use strict'
 
-Controller = require './controller'
+module.exports = ->
+	Controller = require './controller'
 
-module.exports = (parko) ->
-    class UserController extends Controller
-        index: (req, res, next) ->
-            response =
-                count: 0
-                data: []
+	class UserController extends Controller
+		index: (req, res) ->
+			response =
+				count: 0
+				data: []
 
-            @model.count (err, count) ->
-                if err?
-                    res.status(500).json(@createErrorResponse(err.name, err.message))
-                else
-                    response.count = count
+			self = @
 
-                    # Check if it has pagination?
-                    limit = Math.min count, req.query.limit
-                    page = Math.max 0, req.query.page - 1
+			@model.count (err, count) ->
+				if err?
+					debugger
+					res.status(500).json(self.createErrorResponse(err.name, err.message))
+				else
+					response.count = count
 
-                    @model.find()
-                    .limit limit
-                    .skip limit * page
-                    .sort id: 'desc'
-                    .exec (err, users) ->
-                        if err?
-                            res.status(500).json(@createErrorResponse(err.name, err.message))
-                        else
-                            response.data = users
-                            res.json @createSuccessResponse response
-                        return
-                return
-            return
+					# Check if it has pagination?
+					limit = Math.min count, req.query.limit
+					page = Math.max 0, req.query.page - 1
 
-        get: (req, res, next) ->
-            @model.findById req.params.id
-            .exec (err, user) ->
-                if err?
-                    res.status(500).json(@createErrorResponse(err.name, err.message))
-                else
-                    res.json @createSuccessResponse user
-                return
-            return
+					@model.find()
+					.limit limit
+					.skip limit * page
+					.sort id: 'desc'
+					.exec (err, users) ->
+						if err?
+							debugger
+							res.status(500).json(self.createErrorResponse(err.name, err.message))
+						else
+							response.data = users
+							res.json self.createSuccessResponse response
+						return
+				return
+			return
 
-        create: (req, res, next) ->
-            user = new User req.body
-            user.save (err) ->
-                if err?
-                    res.status(500).json(@createErrorResponse(err.name, err.message))
-                else
-                    res.json @createSuccessResponse user
-                return
-            return
+		get: (req, res) ->
+			self = @
 
-        update: (req, res, next) ->
-            @model.update _id: req.params.id, req.body, new: true, (err, user) ->
-                if err?
-                    res.status(500).json(@createErrorResponse(err.name, err.message))
-                else
-                    res.json @createSuccessResponse {}
-                return
-            return
+			@model.findById req.params.id
+			.exec (err, user) ->
+				if err?
+					res.status(500).json(self.createErrorResponse(err.name, err.message))
+				else
+					res.json self.createSuccessResponse user
+				return
+			return
 
-        delete: (req, res, next) ->
-            @model.remove _id: req.params.id, (err) ->
-                if err?
-                    res.status(500).json(@createErrorResponse(err.name, err.message))
-                else
-                    res.json @createSuccessResponse {}
-                return
-            return
+		create: (req, res) ->
+			self = @
 
-        block: (req, res, next) ->
-            @model.update {_id: req.params.id}, {$set: isBlocked: true}, (err, response) ->
-                if err?
-                    res.status(500).json(@createErrorResponse(err.name, err.message))
-                else
-                    res.json @createSuccessResponse {}
-                return
-            return
+			user = new User req.body
+			user.save (err) ->
+				if err?
+					res.status(500).json(self.createErrorResponse(err.name, err.message))
+				else
+					res.json self.createSuccessResponse user
+				return
+			return
 
-        unblock: (req, res, next) ->
-            @model.update {_id: req.params.id}, {$set: isBlocked: false}, (err, response) ->
-                if err?
-                    res.status(500).json(@createErrorResponse(err.name, err.message))
-                else
-                    res.json @createSuccessResponse {}
-                return
-            return
+		update: (req, res) ->
+			self = @
 
-    new UserController parko.models.user
+			@model.update _id: req.params.id, req.body, new: true, (err, user) ->
+				if err?
+					res.status(500).json(self.createErrorResponse(err.name, err.message))
+				else
+					res.json self.createSuccessResponse {}
+				return
+			return
+
+		delete: (req, res) ->
+			self = @
+
+			@model.remove _id: req.params.id, (err) ->
+				if err?
+					res.status(500).json(self.createErrorResponse(err.name, err.message))
+				else
+					res.json self.createSuccessResponse {}
+				return
+			return
+
+		block: (req, res) ->
+			self = @
+
+			@model.update {_id: req.params.id}, {$set: isBlocked: true}, (err, response) ->
+				if err?
+					res.status(500).json(self.createErrorResponse(err.name, err.message))
+				else
+					res.json self.createSuccessResponse {}
+				return
+			return
+
+		unblock: (req, res) ->
+			self = @
+			
+			@model.update {_id: req.params.id}, {$set: isBlocked: false}, (err, response) ->
+				if err?
+					res.status(500).json(self.createErrorResponse(err.name, err.message))
+				else
+					res.json self.createSuccessResponse {}
+				return
+			return
+	UserController
+

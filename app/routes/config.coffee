@@ -1,14 +1,25 @@
 'use strict'
 
 module.exports = (parko) ->
-  router = parko.createRouter()
-  configController = parko.controllers.config
+	router = parko.createRouter()
 
-  router.get '/', configController.index
-  router.get '/:id', configController.get
-  router.post '/', configController.create
-  router.put '/:id', configController.update
-  router.delete '/:id', configController.delete
+	ConfigController = parko.controllers.config
+	configController = new ConfigController parko.models.config
 
-  parko.registerRoute '/config_', router
-  return router;
+	router.get '/', (req, res) ->
+		configController.index req, res
+
+	router.get '/:id', (req, res) ->
+		configController.get req, res
+
+	router.post '/', (req, res) ->
+		configController.create req, res
+
+	router.put '/:id', (req, res) ->
+		configController.update req, res
+
+	router.delete '/:id', (req, res) ->
+		configController.delete req, res
+
+	parko.registerRoute '/config_', router
+	return router;

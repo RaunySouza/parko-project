@@ -1,33 +1,32 @@
 'use strict'
 
 class Controller
-    constructor: (model) ->
-        @model = model;
-  ###
-    Create a basic response message
+	constructor: (@model) ->
 
-    var response = {
-         result: 'OK', // || ERR
-         resultData: { // For success (result = OK). Could be anything you want
-             count: 0,
-             data: [] // || {}
-         },
-         resultData: { // For Error (result = ERR). Always a code and a message ()
-             code: 10,
-             message: ''
-         }
-     };
 
-  ###
+		###Create a basic response message
 
-  createSuccessResponse: (data) ->
-    result: 'OK'
-    resultData: data
+		var response = {
+			 result: 'OK', // || ERR
+			 resultData: { // For success (result = OK). Could be anything you want
+				 count: 0,
+				 data: [] // || {}
+			 },
+			 resultData: { // For Error (result = ERR). Always a code and a message ()
+				 code: 10,
+				 message: ''
+			 }
+		 };
+		###
 
-  createErrorResponse: (errCode, errMessage) ->
-    result: 'ERR'
-    resultData:
-      code: errCode
-      message: errMessage
+	createSuccessResponse: (data) ->
+		result: 'OK'
+		resultData: data
+
+	createErrorResponse: (errCode, errMessage) ->
+		result: 'ERR'
+		resultData:
+			code: errCode
+			message: errMessage
 
 module.exports = Controller
