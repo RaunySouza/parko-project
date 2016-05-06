@@ -24,7 +24,8 @@
             </md-input-container>
             <footer layout="row" layout-sm="column" layout-wrap>
                 <md-button class="md-raised md-primary"
-                           ng-disabled="configForm.availableControllers.$pristine || !configForm.$valid">Salvar</md-button>
+                           ng-disabled="!configForm.$valid || saving"
+                           ng-click="save(configForm)">{{saving ? 'Salvando': 'Salvar'}}</md-button>
             </footer>
         </form>
     </md-content>

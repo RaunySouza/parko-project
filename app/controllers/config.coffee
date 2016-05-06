@@ -16,7 +16,7 @@ module.exports = ->
 			return
 
 		update: (req, res) ->
-			@model.update _id: 1, req.body, new: true, (err, config) =>
+			@model.update id: 1, req.body, new: true, (err, config) =>
 				if err?
 					res.status(500).json(@createErrorResponse(err.name, err.message))
 				else

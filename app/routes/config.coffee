@@ -9,7 +9,7 @@ module.exports = (parko) ->
 	router.get '/', (req, res) ->
 		configController.get req, res
 
-	router.put '/:id', (req, res) ->
+	router.put '/', (req, res) ->
 		configController.update req, res
 
 	parko.registerRoute '/config_', router

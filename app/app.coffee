@@ -71,22 +71,20 @@ app.use (req, res, next) ->
 #development error handler
 #will print stacktrace
 if app.get('env') is 'development'
-  app.use (err, req, res, next) ->
-    res.status err.status or 500
-      .json {
-        message: err.message
-        error: err
-      }
-    return
+	app.use (err, req, res, next) ->
+		res.status err.status or 500
+		.json
+    		message: err.message
+    		error: err
+    	return
 
 #production error handler
 #no stacktraces leaked to user
 app.use (err, req, res, next) ->
-  res.status err.status or 500
-    .json {
-      message: err.message
-      error: {}
-    }
-  return
+	res.status err.status or 500
+	.json
+    	message: err.message
+    	error: {}
+	return
 
 module.exports = app
