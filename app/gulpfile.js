@@ -7,9 +7,9 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     zip = require('gulp-zip'),
     merge = require('merge-stream'),
-    nodemon = require('gulp-nodemon'),
     coffee = require('gulp-coffee'),
-    gutil = require('gulp-util');
+    gutil = require('gulp-util'),
+    nodemon = require('gulp-nodemon');
 
 var clientDir = './client';
 var jsDir = clientDir + '/js';
@@ -23,13 +23,20 @@ var bowerDep = "./bower_components";
 var publicDir = 'public';
 var assetsDir = publicDir + '/assets';
 
-gulp.task('develop', function () {
-    nodemon({script: './bin/www', ext: 'js hjs json', legacyWatch: true });
+var node;
+
+gulp.task('server', function () {
+  nodemon({
+      script: 'bin/www.coffee',
+      ext: 'coffee',
+      env: { 'NODE_ENV': 'development' },
+      legacyWatch: false
+    })
 });
 
 // Clean
 gulp.task('clean', function() {
-    return del([publicDir + "/*"]);
+    return del([publicDir + "/*", "!" + publicDir + "/favicon.ico"]);
 });
 
 gulp.task('coffee', function() {
@@ -56,6 +63,7 @@ gulp.task('scripts', ['coffee'], function() {
         tempDir + "/js/controller/controller.js",
         tempDir + "/js/controller/user.js",
         tempDir + "/js/controller/config.js",
+        tempDir + "/js/controller/toolbar-controller.js",
         tempDir + "/js/main.js"
     ])
     .pipe(concat("main.js"))
@@ -99,14 +107,15 @@ gulp.task('build', ['clean'], function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(jsDir + '/**/*.coffee', ['scripts']);
-    gulp.watch(jsDir + '/**/*.js', ['scripts']);
-    gulp.watch(bowerDep + '/**/*.js', ['scripts']);
-    gulp.watch(cssDir + '/**/*.css', ['styles']);
-    gulp.watch(bowerDep + '/**/*.css', ['styles']);
+    gulp.watch([jsDir + '/**/*.coffee', jsDir + '/**/*.js', bowerDep + '/**/*.js'], ['scripts']);
+    gulp.watch([cssDir + '/**/*.css', bowerDep + '/**/*.css'], ['styles']);
     gulp.watch(imgDir + '/**/*', ['images']);
     gulp.watch(templateDir + '/**/*.html', ['templates']);
     gulp.watch(clientDir + '/*.html', ['htmls']);
 });
 
-gulp.task('default', ['develop', 'build', 'watch']);
+gulp.task('default', ['build', 'server', 'watch']);
+
+process.on('exit', function() {
+    if (node) node.kill();
+});

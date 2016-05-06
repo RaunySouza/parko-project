@@ -11,14 +11,14 @@ consign = require 'consign'
 mongoose = require 'mongoose'
 
 #Database setup
-mongoDbUrl = process.env.MONGODB_URL or 'mongodb://localhost/parko-project'
+mongoDbUrl = process.env.MONGODB_URL or 'mongodb://192.168.1.181/parko-project'
 mongoose.connect mongoDbUrl
 
 autoIncrement.initialize mongoose
 
 app = express()
 
-app.set 'view engine', 'jade'
+# app.set 'view engine', 'jade'
 #uncomment after placing your favicon in /public
 #app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
@@ -71,20 +71,22 @@ app.use (req, res, next) ->
 #development error handler
 #will print stacktrace
 if app.get('env') is 'development'
-	app.use (err, req, res, next) ->
-		res.status err.status or 500
-		res.render 'error',
-			message: err.message
-			error: err
-		return
+  app.use (err, req, res, next) ->
+    res.status err.status or 500
+      .json {
+        message: err.message
+        error: err
+      }
+    return
 
 #production error handler
 #no stacktraces leaked to user
 app.use (err, req, res, next) ->
-	res.status err.status or 500
-	res.render 'error',
-		message: err.message
-		error: {}
-	return
+  res.status err.status or 500
+    .json {
+      message: err.message
+      error: {}
+    }
+  return
 
 module.exports = app

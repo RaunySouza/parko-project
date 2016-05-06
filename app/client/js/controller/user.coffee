@@ -99,7 +99,7 @@ EditionController = ($scope, $mdDialog, Users, Alert, Clone, selected) ->
     successFunction = (response, message) ->
         if response.result is 'OK'
             Alert message
-            $mdDialog.hide user
+            $mdDialog.hide()
         return
 
     errorFunction = (err) ->

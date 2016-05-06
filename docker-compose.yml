@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile.development
     volumes:
-        - "./app:/src/app"
-    command: bower install --allow-root && gulp --gulpfile app/gulpfile.js
+        - "./app:/app"
+    command: "/bin/sh bin/start-dev"
     links:
       - mongo:mongo
     ports:
@@ -16,3 +16,4 @@ services:
       - "35729:35729"
     environment:
       - MONGODB_URL=mongodb://mongo/parko-project
+      - DISABLE_NOTIFIER=true
