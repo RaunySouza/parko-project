@@ -1,25 +1,27 @@
 'use strict'
 
-Controller = require './controller'
+module.exports = ->
+	Controller = require './controller'
 
-class ConfigController extends Controller
-  index: (req, res, next) ->
-    response =
-      count: 0
-      data: []
-    return "oi"
+	class ConfigController extends Controller
 
-  get: (req, res, next) ->
-    return
+		get: (req, res) ->
+			@model.findOne id: 1, (err, config) =>
+				debugger
+				if err?
+					res.status(500).json(@createErrorResponse(err.name, err.message))
+				else
+					res.json @createSuccessResponse config
+				return
+			return
 
-  create: (req, res, next) ->
-    return
+		update: (req, res) ->
+			@model.update _id: 1, req.body, new: true, (err, config) =>
+				if err?
+					res.status(500).json(@createErrorResponse(err.name, err.message))
+				else
+					res.json @createSuccessResponse {}
+				return
+			return
 
-  update: (req, res, next) ->
-    return
-
-  delete: (req, res, next) ->
-    return
-
-module.exports = (parko) ->
-  new ConfigController(parko.models.config)
+	ConfigController

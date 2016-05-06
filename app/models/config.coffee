@@ -5,11 +5,8 @@ module.exports = (parko) ->
     Schema = mongoose.Schema
 
     ConfigSchema = new Schema
-        key:
-            type: String
-            required: true
-        value:
-            type: String
+        availableControllers:
+            type: Number
             required: true
 
     parko.registerModel 'Config', ConfigSchema

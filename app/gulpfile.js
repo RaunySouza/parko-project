@@ -30,7 +30,7 @@ gulp.task('server', function () {
       script: 'bin/www.coffee',
       ext: 'coffee',
       env: { 'NODE_ENV': 'development' },
-      legacyWatch: true
+      legacyWatch: false
     })
 });
 
